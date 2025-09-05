@@ -3,9 +3,9 @@ package util;
 import java.sql.*;
 
 public class ConnectionFactory {
-    public static  final  String PATH = "jdbc:postgresql://localhost:5432/banco";
-    public static  final  String USER = "POSTGRES";
-    public static final String PASSWORD = "postgres";
+    public static  final  String PATH = "jdbc:postgresql://localhost:5432/superdev_db";
+    public static  final  String USER = "postgres";
+    public static final String PASSWORD = "admin";
 
     //metodo que retorna a conexão estabelecida
     public static Connection getConnection() throws Exception{
