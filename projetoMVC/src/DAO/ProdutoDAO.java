@@ -20,6 +20,45 @@ public class ProdutoDAO implements GenericDAO {
             throw new Exception(e.getMessage());
         }
     }
+    public List<Object> getAll() {
+
+        List<Object> produtoList = new ArrayList<>();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String sql = "SELECT * FROM produto ORDER BY id";
+
+        try {
+            stmt = this.conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+
+            // rs.next() vai buscar o próximo registro encontrado no SELECT anterior
+            // para CADA registro encontrado, será executado o bloco abaixo
+            while (rs.next()) {
+                // Declaro um objeto da classe Produto pra ser populado com as informações do bancc
+                Produto produto = new Produto();
+
+                // Fazemos um match entre o nome da coluna no banco de dados com o nome do atributo
+                // correspondente do objeto
+                produto.setId(rs.getInt("id"));
+                produto.setDescricao(rs.getString("descricao"));
+                produto.setPreco(rs.getDouble("preco"));
+                produto.setStatus(rs.getBoolean("status"));
+
+                // Inserir este objeto produto na lista
+                produtoList.add(produto);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                ConnectionFactory.closeConnection(conn, stmt, rs);
+            } catch (Exception ex) {
+                System.out.println("Problemas ao fechar conexão. Erro: " + ex.getMessage());
+                ex.printStackTrace();
+            }
+        }
+        return produtoList;
+    }
 
     @Override
     public List<Object> getAll() {
